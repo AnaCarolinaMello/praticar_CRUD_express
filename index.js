@@ -102,10 +102,10 @@ app.patch('/:id', async (req,res) =>{
             const idNota = notas.grades.find(
                 n => n.id === parseInt(req.params.id)
             )
-            notas.grades[idNota.id-2].student = notaAlterar.student
-            notas.grades[idNota.id-2].subject = notaAlterar.subject
-            notas.grades[idNota.id-2].type = notaAlterar.type
-            notas.grades[idNota.id-2].value = notaAlterar.value
+            notas.grades[index].student = notaAlterar.student
+            notas.grades[index].subject = notaAlterar.subject
+            notas.grades[index].type = notaAlterar.type
+            notas.grades[index].value = notaAlterar.value
 
             await fs.writeFileSync("models/grades.json",JSON.stringify(notas,null,2))
             res.send(idNota)
@@ -185,7 +185,7 @@ app.get('/media/:student/:subject', async(req,res)=>{
     }
 })
 
-app.get('/3melhores/:student/:subject', async(req,res)=>{
+app.get('/3melhoresNotas/:student/:subject', async(req,res)=>{
     const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
     const index = notas.grades.findIndex(a => a.student === req.params.student);
     const index2 = notas.grades.findIndex(a => a.subject === req.params.subject);
@@ -229,6 +229,132 @@ app.get('/3melhores/:student/:subject', async(req,res)=>{
           }); 
         console.log(`3 melhores notas`)
         res.send(`Aluno: ${req.params.student} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`)
+    }
+})
+
+app.get('/3melhoresAlunos/:subject', async(req,res)=>{
+    const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
+    const index = notas.grades.findIndex(a => a.subject === req.params.subject);
+    if(index == -1){
+        res.send("Registro inexistente")
+        res.end()
+    }else{
+        // const aluno = notas.grades.filter(
+        //     n => n.student === req.params.student
+        // )
+        let materiaAluno = notas.grades.filter(
+            n => n.subject === req.params.subject
+        )
+        let alunos = [];
+        let alunosFinal = []
+        let quantAluno = 0;
+        materiaAluno.forEach(data =>{
+            if(quantAluno == 0){
+                alunos.push(data.student)
+                console.log("1")
+            }else{
+                alunos.push(data.student)
+            }
+            
+            quantAluno++
+        })
+        alunos = alunos.filter(function(este, i) {
+            return alunos.indexOf(este) === i;
+        });
+        let alunoNota
+        let notaFinal = 0
+        let notaTeste = 0
+        let cont = 0
+        let contTeste = 0;
+        let seguranca = 0
+        alunos.forEach(dado =>{
+            alunoNota = materiaAluno.filter(
+                n => n.student === dado
+            );
+            alunoNota.forEach(value => {
+                notaFinal+= parseInt(value.value)
+            });
+            if(alunosFinal.length == 0){
+                alunosFinal.push({nome: dado, nota: notaFinal}) 
+            }else 
+            alunosFinal.forEach(value =>{
+                if(notaFinal > value.nota){
+                    if(seguranca == 0){
+                        alunosFinal.splice(contTeste, 0 ,{nome: dado, nota: notaFinal})
+                        seguranca = 1
+                    }
+                }
+                if(contTeste == alunosFinal.length){
+                    alunosFinal.push({nome: dado, nota: notaFinal})
+                }
+                contTeste++
+            })
+            seguranca = 0
+            notaFinal = 0
+            contTeste = 0
+            cont++
+        })
+        alunosFinal.length = 3
+        let alunosDefinitivos = []
+        alunosFinal.forEach(value =>{
+            alunosDefinitivos.push(value.nome)
+        })
+        let aluno1
+        let aluno2
+        let aluno3
+        let controleAluno = 1
+        let melhoresNotas = [];
+        let quantAtv = 0;
+        let testemaior = 0;
+        let naorepitir = 0;
+        
+        alunosDefinitivos.forEach(data=>{
+            materiaAluno = materiaAluno.filter(
+                n => n.student === data
+            )
+            materiaAluno.forEach(value => {
+                if(quantAtv < 3){
+                    melhoresNotas.push(value.value)
+                }else{
+                    melhoresNotas.forEach(element =>{
+                        if(value.value > element){
+                            if(naorepitir == 0){
+                                melhoresNotas.splice(testemaior,1,value.value)
+                                naorepitir = 1;
+                            }
+                        }
+                        testemaior++
+                    })
+                    testemaior = 0
+                    naorepitir = 0
+                }
+                melhoresNotas.sort(function (a, b) {
+                    return a - b;
+                  });
+                quantAtv ++
+            });
+            melhoresNotas.sort(function (a, b) {
+                return b - a;
+            }); 
+            if(controleAluno == 1){
+                aluno1 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
+            }else if(controleAluno == 2){
+                aluno2 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
+            }else{
+                aluno3 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
+            }
+            materiaAluno = notas.grades.filter(
+                n => n.subject === req.params.subject
+            )
+            controleAluno++
+            melhoresNotas = [];
+            quantAtv = 0;
+            testemaior = 0;
+            naorepitir = 0
+        })
+        console.log(`3 melhores notas`)
+        res.send(`${aluno1} ${aluno2} ${aluno3}`)
+
     }
 })
 
