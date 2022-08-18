@@ -251,7 +251,6 @@ app.get('/3melhoresAlunos/:subject', async(req,res)=>{
         materiaAluno.forEach(data =>{
             if(quantAluno == 0){
                 alunos.push(data.student)
-                console.log("1")
             }else{
                 alunos.push(data.student)
             }
