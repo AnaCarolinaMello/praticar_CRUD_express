@@ -185,7 +185,7 @@ app.get('/media/:student/:subject', async(req,res)=>{
     }
 })
 
-app.get('/3melhores/:subject', async(req,res)=>{
+app.get('/3melhores/:student/:subject', async(req,res)=>{
     const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
     const index = notas.grades.findIndex(a => a.student === req.params.student);
     const index2 = notas.grades.findIndex(a => a.subject === req.params.subject);
