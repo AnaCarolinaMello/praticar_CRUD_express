@@ -30,7 +30,7 @@ const swaggerDocument =
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Grades"
+                                "$ref": "#/exemploGet/Grades"
                             }
                         }
                     },
@@ -79,13 +79,25 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Id",
+                        "required": true,
+                        "type": "integer",
+                        "schema": {
+                            "$ref": "#/exemploGet/Grades"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucesso",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Grades"
+                                "$ref": "#/exemploGet/Grades"
                             }
                         }
                     },
@@ -103,15 +115,18 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Sucesso",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Grades"
-                            }
-                        }
+                        "description": "Nota deletada"
                     },
                     "400": {
                         "description": "Erro"
@@ -136,6 +151,13 @@ const swaggerDocument =
                         "schema": {
                             "$ref": "#/definitions/Grades"
                         }
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -159,13 +181,22 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student",
+                        "description": "Student",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucesso",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Grades"
+                                "$ref": "#/exemploGet/Grades"
                             }
                         }
                     },
@@ -185,15 +216,25 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student",
+                        "description": "Student",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "subject",
+                        "description": "Subject",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Sucesso",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Grades"
-                            }
-                        }
+                        "description": "Nota final: 60"
                     },
                     "400": {
                         "description": "Erro"
@@ -211,15 +252,25 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student",
+                        "description": "Student",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "subject",
+                        "description": "Subject",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Sucesso",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Grades"
-                            }
-                        }
+                        "description": "Média: 7"
                     },
                     "400": {
                         "description": "Erro"
@@ -237,15 +288,25 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "student",
+                        "description": "Student",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "subject",
+                        "description": "Subject",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Sucesso",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Grades"
-                            }
-                        }
+                        "description": "Aluno: Jorge | Matéria: Matemática | 3 maiores notas: 34,24,24"
                     },
                     "400": {
                         "description": "Erro"
@@ -263,15 +324,18 @@ const swaggerDocument =
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "subject",
+                        "description": "Subject",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Sucesso",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Grades"
-                            }
-                        }
+                        "description": "Aluno: Jorge | Matéria: Matemática | 3 maiores notas: 34,24,24 || Aluno: Mauro | Matéria: Matemática | 3 maiores notas: 31,24,14 || Aluno: Márcia | Matéria: Matemática | 3 maiores notas: 32,14,10"
                     },
                     "400": {
                         "description": "Erro"
@@ -286,7 +350,7 @@ const swaggerDocument =
             "properties": {
                 "student": {
                     "type": "string",
-                    "example": "Gorge"
+                    "example": "Jorge"
                 },
                 "subject": {
                     "type": "string",
@@ -300,6 +364,38 @@ const swaggerDocument =
                     "type": "integer",
                     "example": 6
                 }
+            }
+        }
+    },
+    "exemploGet": {
+        "Grades": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 41
+                },
+                "student": {
+                    "type": "string",
+                    "example": "Jorge"
+                },
+                "subject": {
+                    "type": "string",
+                    "example": "Matemática"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "Trabalho prático"
+                },
+                "value": {
+                    "type": "integer",
+                    "example": 6
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2020-05-19T18:21:24.981Z"
+                }
+                
             }
         }
     }
