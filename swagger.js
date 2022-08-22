@@ -234,7 +234,7 @@ const swaggerDocument =
                 ],
                 "responses": {
                     "200": {
-                        "description": "Nota final: 60"
+                        "description": "Aluno: Jorge | Matéria: Matemática | Nota final: 60"
                     },
                     "400": {
                         "description": "Erro"
@@ -270,7 +270,7 @@ const swaggerDocument =
                 ],
                 "responses": {
                     "200": {
-                        "description": "Média: 7"
+                        "description": "Aluno: Jorge | Matéria: Matemática | Média: 7"
                     },
                     "400": {
                         "description": "Erro"
