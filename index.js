@@ -26,22 +26,25 @@ app.post('/', async (req, res) =>{
         let nota = req.body;
         if(nota.student == null || nota.subject == null || nota.type == null || nota.value == null){
             console.log("Dados obrigatórios faltando");
-        }
-        const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
-        nota = {
-            id: notas.nextId++,
-            student: nota.student,
-            subject: nota.subject,
-            type: nota.type,
-            value: nota.value,
-            timestamp: new Date()
-        }
-        notas.grades.push(nota)
+            res.send("Dados obrigatórios faltando");
+            res.end()
+        }else{
+            const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
+            nota = {
+                id: notas.nextId++,
+                student: nota.student,
+                subject: nota.subject,
+                type: nota.type,
+                value: nota.value,
+                timestamp: new Date()
+            }
+            notas.grades.push(nota)
 
-        await fs.writeFileSync("models/grades.json",JSON.stringify(notas,null,2))
+            await fs.writeFileSync("models/grades.json",JSON.stringify(notas,null,2))
 
-        res.send(nota)
-        console.log("Nota do trabalho adicionada")
+            res.send(nota)
+            console.log("Nota do trabalho adicionada")
+        }
 
     }catch(err){
         console.log(err)
@@ -94,25 +97,27 @@ app.patch('/:id', async (req,res) =>{
         let notaAlterar = req.body;
         if(notaAlterar.student == null || notaAlterar.subject == null || notaAlterar.type == null || notaAlterar.value == null){
             console.log("Dados obrigatórios faltando");
-            return
-        }
-        const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
-        const index = notas.grades.findIndex(a => a.id === parseInt(req.params.id));
-        if(index == -1){
-            res.send("Registro inexistente")
+            res.send("Dados obrigatórios faltando")
             res.end()
         }else{
-            const idNota = notas.grades.find(
-                n => n.id === parseInt(req.params.id)
-            )
-            notas.grades[index].student = notaAlterar.student
-            notas.grades[index].subject = notaAlterar.subject
-            notas.grades[index].type = notaAlterar.type
-            notas.grades[index].value = notaAlterar.value
+            const notas = JSON.parse(await fs.readFileSync("models/grades.json"))
+            const index = notas.grades.findIndex(a => a.id === parseInt(req.params.id));
+            if(index == -1){
+                res.send("Registro inexistente")
+                res.end()
+            }else{
+                const idNota = notas.grades.find(
+                    n => n.id === parseInt(req.params.id)
+                )
+                notas.grades[index].student = notaAlterar.student
+                notas.grades[index].subject = notaAlterar.subject
+                notas.grades[index].type = notaAlterar.type
+                notas.grades[index].value = notaAlterar.value
 
-            await fs.writeFileSync("models/grades.json",JSON.stringify(notas,null,2))
-            res.send(idNota)
-            console.log(`Nota altualizada`)
+                await fs.writeFileSync("models/grades.json",JSON.stringify(notas,null,2))
+                res.send(idNota)
+                console.log(`Nota altualizada`)
+            }
         }
     }catch(err){
         console.log(err)
@@ -254,6 +259,7 @@ app.get('/3melhoresAlunos/:subject', async(req,res)=>{
         materiaAluno.forEach(data =>{
             if(quantAluno == 0){
                 alunos.push(data.student)
+                console.log("1")
             }else{
                 alunos.push(data.student)
             }
