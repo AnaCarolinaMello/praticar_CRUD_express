@@ -345,9 +345,9 @@ app.get('/3melhoresAlunos/:subject', async(req,res)=>{
                 return b - a;
             }); 
             if(controleAluno == 1){
-                aluno1 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
+                aluno1 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas} || `
             }else if(controleAluno == 2){
-                aluno2 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
+                aluno2 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas} || `
             }else{
                 aluno3 = `Aluno: ${data} | Matéria: ${req.params.subject} | 3 maiores notas: ${melhoresNotas}`
             }
